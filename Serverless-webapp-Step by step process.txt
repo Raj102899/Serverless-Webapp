@@ -1,0 +1,91 @@
+Install AWS shell
+pip install aws-shell
+AWS configure
+
+Create a repository in the codecommit
+AWS code commit create-repository --repository-name wild-rydes
+
+clone the repository from git
+git clone https://github.com/aws-samples/aws-serverless-webapp-workshop
+cd aws-serverless-webapp-workshop
+
+split the code
+ git subtree split -P resources/code/WildRydesVue -b WildRydesVue
+*Note for branch-created notification*
+
+Create a separate folder
+mkdir ../wild-rydes
+cd ../wild-rydes
+
+pull the created branch to this folder
+git pull ../aws-serverless-webapp-workshop WildRydesVue
+
+Commit the changes and push the content to codecommit
+ git remote add origin codecommit://wild-rydes
+git push -u origin master
+
+use amplify to deploy the repository created in codecommit
+Create an IAM role with amplify administrator access with codecommit read-only policyamplify add 
+check for the web app status
+
+Install amplify cli
+npm install -g @aws-amplify/cli
+
+Initialise amplify
+amplify init
+
+add user pool 
+amplify add auth
+
+commit and push the changes
+git add.
+git commit -m "added user pool "
+git push
+
+Create a dynamodb table (To store values)
+Rides and RideId
+
+Create an IAM role 
+role with awslambdabasicexecutionrole to givepermission to lambda
+add inline policy of put item of dynamodb to store value in dynamodb
+
+create the lambda function node.16js
+replace the code with 'https://webapp.serverlessworkshops.io/serverlessbackend/lambda/requestUnicorn.js'
+
+Replace the test code with
+
+{
+    "path": "/ride",
+    "httpMethod": "POST",
+    "headers": {
+        "Accept": "*/*",
+        "Authorization": "eyJraWQiOiJLTzRVMWZs",
+        "content-type": "application/json; charset=UTF-8"
+    },
+    "queryStringParameters": null,
+    "pathParameters": null,
+    "requestContext": {
+        "authorizer": {
+            "claims": {
+                "cognito:username": "the_username"
+            }
+        }
+    },
+    "body": "{\"PickupLocation\":{\"Latitude\":47.6174755835663,\"Longitude\":-122.28837066650185}}"
+}
+
+deploy and test the function
+
+Create API gateway 
+create resource 
+create method- post
+add the lambda function
+and change none to wildrydes.
+
+&change the invoke URL in the config.js file that was created in the API gateway and push all the changes&
+
+
+
+
+
+
